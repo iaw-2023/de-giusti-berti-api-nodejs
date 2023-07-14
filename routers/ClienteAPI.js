@@ -64,7 +64,7 @@ router.post('/register', (req, res) => {
         }
         
         // Realiza la primera consulta para verificar si el email ya existe
-        client.query('SELECT email FROM clientes WHERE email = $1', [email], (error, results) => {
+        client.query('SELECT email FROM clientes WHERE (email = $1) OR (nombre = $2 AND apellido = $3)', [email, nombre, apellido], (error, results) => {
           if (error) {
             throw error;
           }
@@ -176,7 +176,7 @@ router.post('/changepassword', (req, res) => {
 					  }
 					  
 					  /* Lógica de enviar mail */
-					  enviarCorreo(email, 'Cambiar contraseña - El templo del Fútbol', 'Ingresa al siguiente link para cambiar la contraseña: http://localhost:3000/cambiar/' + email + '/' + token);
+					  enviarCorreo(email, 'Cambiar contraseña - El templo del Fútbol', 'Ingresa al siguiente link para cambiar la contraseña: https://degiusti-berti-react-tomasdg9.vercel.app/cambiar/' + email + '/' + token);
 					  
 					 client.query('COMMIT', (error) => {
 					  if (error) {
